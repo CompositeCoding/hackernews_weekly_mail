@@ -12,7 +12,6 @@ def main():
     if scraper.validate_request():
         articles = scraper.parse_articles()
         email_text = create_email(articles)
-        print(email_text)
         send_email(email_text)
 
 
@@ -20,4 +19,4 @@ if __name__ == "__main__":
     schedule.every().monday.do(main)
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(600)

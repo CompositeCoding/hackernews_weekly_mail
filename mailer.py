@@ -6,7 +6,7 @@ import email.message
 def create_email(articles):
 
     """
-    Function that creates an email with the scraped articles. 
+    Function that creates an email with the scraped articles.
     The article_block is a single email element which is placed
     inside the email.html file
     """
@@ -31,6 +31,10 @@ def create_email(articles):
     email_template = codecs.open('html/email.html', "r", "utf-8").read()
     email = email_template.replace(r"{articles}", articles)
 
+    # Close the openend files
+    article_template.close()
+    email_template.close()
+
     return email
 
 
@@ -42,7 +46,7 @@ def send_email(email_HTML):
     FROM = os.getenv("FROM_ADDRESS")
     TO = os.getenv("TO_ADDRESS")
     SERVER = os.getenv("SMTP")
-    MAIL_LOGIN = os.getenv("MAIL_LOGIN")  
+    MAIL_LOGIN = os.getenv("MAIL_LOGIN")
     MAIL_PW = os.getenv("MAIL_PASSWORD")
 
     # Create message object to allow HTML to be send
@@ -56,7 +60,6 @@ def send_email(email_HTML):
     # send the email through smtp
     try:
         server = smtplib.SMTP(SERVER, 587)
-        print(server)
         server.starttls()
         server.login(MAIL_LOGIN, MAIL_PW)
         server.sendmail(FROM, TO, msg.as_string())
